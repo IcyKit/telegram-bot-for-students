@@ -6,7 +6,8 @@ import {
     acceptTask,
     showStatus,
     notifications,
-    getGroups
+    getGroups,
+    showGroup
 } from './bot.js';
 
 import shedule from './shedule.js';
@@ -23,7 +24,7 @@ groups.forEach(group => {
 
 bot.on('message', (msg) => {
     if (msg.text === 'Привет') {
-        bot.sendMessage(msg.chat.id, msg.chat.id);
+        bot.sendMessage(msg.chat.id, 'Привет!' + ' ' + msg.from.id);
     }
 });
 
@@ -114,6 +115,10 @@ bot.onText(/\/add_afternext/, async (msg) => {
     }
 });
 
+bot.onText(/\/show_group/, async (msg) => {
+    showGroup();
+});
+
 bot.onText(/\/remove/, async (msg) => {
     removeGroup(msg.chat.id);
     bot.sendMessage(msg.chat.id, 'Группа удалена');
@@ -123,7 +128,7 @@ bot.on('message', async (msg) => {
     if (msg.new_chat_members) {
         let addedStudentId = msg.new_chat_members[0].id;
         let addedStudentName = msg.new_chat_members[0].first_name;
-        addStudent(msg.chat.id, addedStudentId, addedStudentName)
+        addStudent(msg.chat.id, addedStudentId, addedStudentName);
         bot.sendMessage(msg.chat.id, `Ученик ${addedStudentName} добавлен(-а) в группу`);
     }
 
@@ -132,5 +137,11 @@ bot.on('message', async (msg) => {
         let removedStudentName = msg.left_chat_member.first_name;
         removeStudent(removedStudentId);
         bot.sendMessage(msg.chat.id, `Ученик ${removedStudentName} удален(-а) из группы`);
+    }
+
+    if (msg.text === 'принимаю' || msg.text === 'принято' || msg.text === 'Принимаю' || msg.text === 'Принято') {
+        const studentId = msg.reply_to_message.from.id;
+        acceptTask(msg.chat.id, studentId);
+        bot.sendMessage(msg.chat.id, showStatus(msg.chat.id))
     }
 });

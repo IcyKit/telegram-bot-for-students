@@ -4,22 +4,12 @@ import { bot, token } from './index.js';
 let groups = [
   {
     id: -1001632625918,
-    startDate: new Date(2022, 7, 6, 16, 20),
+    startDate: new Date(2022, 7, 6, 16, 59),
     students: [
       {
-        id: 54,
-        name: 'Саша',
+        id: 202881121,
+        name: 'Icy',
         currentTask: 0,
-      },
-      {
-        id: 18,
-        name: 'Никита',
-        currentTask: 7,
-      },
-      {
-        id: 23,
-        name: 'Иван',
-        currentTask: 3,
       },
     ],
   },
@@ -75,9 +65,9 @@ export function showStatus(groupId) {
   let group = groups.find((group) => group.id === groupId);
   group.students.forEach((student) => {
     if (student.currentTask !== 8) {
-      console.log(`${student.name} - сделал заданий ${student.currentTask}`);
+      bot.sendMessage(groupId, `${student.name} - сделал заданий ${student.currentTask}`);
     } else {
-      console.log(`${student.name} - поздравляю, курс пройден`);
+      bot.sendMessage(groupId, `${student.name} - поздравляю, курс пройден`);
     }
   });
 }
@@ -110,4 +100,8 @@ export function notifications(messages, group, stepType) {
 
 export function getGroups() {
   return groups;
+}
+
+export function showGroup() {
+  console.log(groups[0]['students']);
 }
