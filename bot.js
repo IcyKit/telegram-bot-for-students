@@ -1,9 +1,10 @@
-import shedule from "./shedule.js";
+import TelegramBot from 'node-telegram-bot-api'
+import { bot, token } from './index.js';
 
 let groups = [
   {
-    id: 677444,
-    startDate: '28.04.22',
+    id: -1001632625918,
+    startDate: new Date(2022, 7, 6, 16, 20),
     students: [
       {
         id: 54,
@@ -30,7 +31,7 @@ export function addGroup(groupId, startDate) {
   // startDate - пока просто строка
   groups.push({
     id: groupId,
-    startDate: new Date(startDate).toLocaleDateString(),
+    startDate: new Date(startDate).toLocaleDateString('ru-RU'),
     students: [],
   });
 }
@@ -81,18 +82,18 @@ export function showStatus(groupId) {
   });
 }
 
-export function notifications(messages, startDate, stepType) {
+export function notifications(messages, group, stepType) {
   if (stepType === 'minutes') {
     messages.forEach(message => {
-      message.goalDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startDate.getHours(), startDate.getMinutes() + message.step).toLocaleString('ru-RU');
+      message.goalDate = new Date(group.startDate.getFullYear(), group.startDate.getMonth(), group.startDate.getDate(), group.startDate.getHours(), group.startDate.getMinutes() + message.step).toLocaleString('ru-RU');
     });
   } else if (stepType === 'hours') {
     messages.forEach(message => {
-      message.goalDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startDate.getHours() + message.step, startDate.getMinutes()).toLocaleString('ru-RU');
+      message.goalDate = new Date(group.startDate.getFullYear(), group.startDate.getMonth(), group.startDate.getDate(), group.startDate.getHours() + message.step, group.startDate.getMinutes()).toLocaleString('ru-RU');
     });
   } else if (stepType === 'days') {
     messages.forEach(message => {
-      message.goalDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + message.step, startDate.getHours(), startDate.getMinutes()).toLocaleString('ru-RU');
+      message.goalDate = new Date(group.startDate.getFullYear(), group.startDate.getMonth(), group.startDate.getDate() + message.step, group.startDate.getHours(), group.startDate.getMinutes()).toLocaleString('ru-RU');
     });
   }
 
@@ -100,9 +101,13 @@ export function notifications(messages, startDate, stepType) {
     const intervalID = setInterval(() => {
       let dateNow = new Date().toLocaleString('ru-RU');
       if (dateNow === message.goalDate) {
-        console.log(`${message.title} - ${message.link}`);
+        bot.sendMessage(group.id, `${message.title} - ${message.link}`);
         clearInterval(intervalID);
       }
     }, 1000)
   });
+}
+
+export function getGroups() {
+  return groups;
 }

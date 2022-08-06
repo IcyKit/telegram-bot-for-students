@@ -5,18 +5,25 @@ import {
     removeStudent,
     acceptTask,
     showStatus,
-    notifications
+    notifications,
+    getGroups
 } from './bot.js';
 
 import shedule from './shedule.js';
 
 import TelegramBot from 'node-telegram-bot-api'
-const token = '5421280288:AAFi5W4IyLEy2Ez5yaFcOqa_s-VHlfvLIjI';
-const bot = new TelegramBot(token, {polling: true});
+export const token = '5421280288:AAFi5W4IyLEy2Ez5yaFcOqa_s-VHlfvLIjI';
+export const bot = new TelegramBot(token, {polling: true});
+
+const groups = getGroups();
+
+groups.forEach(group => {
+    notifications(shedule, group, 'minutes');
+});
 
 bot.on('message', (msg) => {
     if (msg.text === 'Привет') {
-        bot.sendMessage(msg.chat.id, 'Привет!')
+        bot.sendMessage(msg.chat.id, msg.chat.id);
     }
 });
 
@@ -126,5 +133,4 @@ bot.on('message', async (msg) => {
         removeStudent(removedStudentId);
         bot.sendMessage(msg.chat.id, `Ученик ${removedStudentName} удален(-а) из группы`);
     }
-
 });
