@@ -111,3 +111,20 @@ bot.onText(/\/remove/, async (msg) => {
     removeGroup(msg.chat.id);
     bot.sendMessage(msg.chat.id, 'Группа удалена');
 });
+
+bot.on('message', async (msg) => {
+    if (msg.new_chat_members) {
+        let addedStudentId = msg.new_chat_members[0].id;
+        let addedStudentName = msg.new_chat_members[0].first_name;
+        addStudent(msg.chat.id, addedStudentId, addedStudentName)
+        bot.sendMessage(msg.chat.id, `Ученик ${addedStudentName} добавлен(-а) в группу`);
+    }
+
+    if (msg.left_chat_member) {
+        let removedStudentId = msg.left_chat_member.id;
+        let removedStudentName = msg.left_chat_member.first_name;
+        removeStudent(removedStudentId);
+        bot.sendMessage(msg.chat.id, `Ученик ${removedStudentName} удален(-а) из группы`);
+    }
+
+});
