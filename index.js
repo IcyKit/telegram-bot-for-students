@@ -20,6 +20,94 @@ bot.on('message', (msg) => {
     }
 });
 
-const startDate = new Date(2022, 7, 5, 16, 49);
+bot.onText(/\/add_next/, async (msg) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    let actualDate = new Date();
+    let actualDay = new Date().getDay();
+    let goalDate;
+    switch (days[actualDay]) {
+        case 'Monday':
+            addGroup(msg.chat.id, actualDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${actualDate}`);
+            break;
+        case 'Tuesday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 6).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Wednesday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 5).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Thursday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 4).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Friday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 3).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Saturday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 2).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Sunday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 1).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+    }
+});
 
-console.log(notifications(shedule, startDate, 'minutes'));
+bot.onText(/\/add_afternext/, async (msg) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    let actualDate = new Date();
+    let actualDay = new Date().getDay();
+    let goalDate;
+    switch (days[actualDay]) {
+        case 'Monday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 7).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Tuesday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 13).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Wednesday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 12).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Thursday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 11).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Friday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 10).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Saturday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 9).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+        case 'Sunday':
+            goalDate = new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate() + 8).toLocaleDateString('ru-RU');
+            addGroup(msg.chat.id, goalDate);
+            bot.sendMessage(msg.chat.id, `Группа зарегистрирована на ${goalDate}`);
+            break;
+    }
+});
+
+bot.onText(/\/remove/, async (msg) => {
+    removeGroup(msg.chat.id);
+    bot.sendMessage(msg.chat.id, 'Группа удалена');
+});
