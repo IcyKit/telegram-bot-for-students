@@ -10,6 +10,9 @@
 
 <code>/remove</code> - Remove group with students
 
+<code>/show_group</code> - Show groups array in console
+
+
 ***
 
 <p>When a student enters the telegram channel of the group, he is automatically added to the list of students. When a student leaves the group, he is automatically removed from it.</p>
