@@ -1,4 +1,4 @@
-import { Courses } from './botOOP.js';
+import { Courses } from './bot.js';
 import { notifications } from './notifications.js';
 import shedule from './shedule.js';
 import TelegramBot from 'node-telegram-bot-api'
